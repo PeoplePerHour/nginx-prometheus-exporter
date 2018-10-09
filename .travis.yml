@@ -4,10 +4,21 @@ services:
 - docker
 go:
 - "1.10"
+env:
+- PROMETHEUS_TAG="v0.1.0"
 script:
-- echo "Nginx Prometheus Exporter - commit:${TRAVIS_COMMIT}"
+- echo "Nginx Prometheus Exporter - commit:${TRAVIS_COMMIT} version:${PROMETHEUS_TAG}"
 - make test
 - make container
+- make binaries
+- mkdir release_output
+- cp nginx-prometheus-exporter_* release_output
+- cd release_output
+- tar czf nginx-prometheus-exporter-${PROMETHEUS_TAG}-linux-amd64.tar.gz nginx-prometheus-exporter_amd64
+- tar czf nginx-prometheus-exporter-${PROMETHEUS_TAG}-linux-i386.tar.gz nginx-prometheus-exporter_i386
+- echo "nginx-prometheus-exporter_amd64 $(sha256sum nginx-prometheus-exporter-${PROMETHEUS_TAG}-linux-amd64.tar.gz)" > sha256sums.txt
+- echo "nginx-prometheus-exporter_i386 $(sha256sum nginx-prometheus-exporter-${PROMETHEUS_TAG}-linux-i386.tar.gz)" >> sha256sums.txt
+- echo "Nginx Prometheus exporter binaries built:" && ls -alh nginx-prometheus-exporter_* && cat sha256sums.txt
 before_install:
 - echo "PR Slug:${TRAVIS_PULL_REQUEST_SLUG}"
 - if [[ "${TRAVIS_PULL_REQUEST_SLUG}" == "nginxinc/nginx-prometheus-exporter" || "${TRAVIS_PULL_REQUEST}" == "false" ]]; then
