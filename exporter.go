@@ -70,6 +70,8 @@ func main() {
 
 	registry := prometheus.NewRegistry()
 
+	app := os.Getenv("SERVICE")
+
 	buildInfoMetric := prometheus.NewGauge(
 		prometheus.GaugeOpts{
 			Name: "nginxexporter_build_info",
@@ -104,7 +106,7 @@ func main() {
 			log.Fatalf("Could not create Nginx Client: %v", err)
 		}
 
-		registry.MustRegister(collector.NewNginxCollector(client, "nginx"))
+		registry.MustRegister(collector.NewNginxCollector(client, app+"_nginx"))
 	}
 
 	http.Handle(*metricsPath, promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))

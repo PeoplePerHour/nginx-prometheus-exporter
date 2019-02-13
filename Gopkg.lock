@@ -34,6 +34,17 @@
   version = "v0.2"
 
 [[projects]]
+  digest = "1:aeb11030e3ed0339cfb28f20ee23219e73202f8f8b589f1547c56d6a6a4e36e9"
+  name = "github.com/nginxinc/nginx-prometheus-exporter"
+  packages = [
+    "client",
+    "collector",
+  ]
+  pruneopts = "UT"
+  revision = "65702758f28e7f472fa3a978d9321ee3cb9a7d2c"
+  version = "v0.3.0"
+
+[[projects]]
   digest = "1:93a746f1060a8acbcf69344862b2ceced80f854170e1caae089b2834c5fbf7f4"
   name = "github.com/prometheus/client_golang"
   packages = [
@@ -83,6 +94,8 @@
   analyzer-version = 1
   input-imports = [
     "github.com/nginxinc/nginx-plus-go-sdk/client",
+    "github.com/nginxinc/nginx-prometheus-exporter/client",
+    "github.com/nginxinc/nginx-prometheus-exporter/collector",
     "github.com/prometheus/client_golang/prometheus",
     "github.com/prometheus/client_golang/prometheus/promhttp",
   ]
